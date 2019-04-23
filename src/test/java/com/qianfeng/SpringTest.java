@@ -6,7 +6,9 @@ package com.qianfeng;
 import com.qianfeng.po.TbBrand;
 import com.qianfeng.po.TbPhone;
 import com.qianfeng.service.Impl.BrandService;
+import com.qianfeng.service.Impl.InfoPhoneService;
 import com.qianfeng.service.Impl.PhoneService;
+import com.qianfeng.vo.InfoVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,6 +29,9 @@ public class SpringTest {
     @Autowired
     private PhoneService phoneService;
 
+    @Autowired
+    private InfoPhoneService infoPhoneService;
+
     @Test
     public void testCase1(){
         List<TbBrand> lsit = brandService.selectAllBrand();
@@ -45,5 +50,11 @@ public class SpringTest {
     public void testCase3(){
         List<TbPhone> list = phoneService.selectPhoneById(1);
         System.out.println(list);
+    }
+
+    @Test
+    public void testCase4(){
+        InfoVo infoVo = infoPhoneService.selectPhoneInfo(1);
+        System.out.println(infoVo);
     }
 }

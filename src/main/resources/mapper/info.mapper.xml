@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.mapper.InfoMapper">
+    <resultMap id="baseResultMap" type="com.qianfeng.vo.InfoVo">
+        <id property="brandName" column="brand_name" javaType="java.lang.String"></id>
+        <result property="phoneName" column="phone_name" javaType="java.lang.String"/>
+        <result property="phoneImg" column="phone_img" javaType="java.lang.String"/>
+        <result property="phonePrice" column="phone_price" javaType="java.lang.String"/>
+    </resultMap>
+    <select id="selectPhoneInfo" resultMap="baseResultMap">
+        select b.brand_name,p.phone_name,p.phone_img,p.phone_price from tb_brand b left join tb_phone p on b.brand_id = p.brand_id where p.phone_id =#{phoneId}
+    </select>
+</mapper>

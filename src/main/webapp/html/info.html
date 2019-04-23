@@ -18,35 +18,40 @@
     <script src="../js/public.js" type="text/javascript"></script>
     <script src="../js/new_js/menu.js" type="text/javascript"></script>
     <script src="../js/new_js/new_goods.js" type="text/javascript"></script>
+
+    <script src="../js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="../css/alert_zhe.css"/>
 <script type="text/javascript" src="../js/alert_zhe.js"></script>
-<!--头部--><!--手机回收-->
-<div class="recovery">
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".new_search_btn").click(function () {
-                $(".new_search").slideToggle();
-            });
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".new_search_btn").click(function () {
+            $(".new_search").slideToggle();
         });
-    </script>
-    <div class="page2" style="position:relative">
+    });
+</script>
+<!--头部--><!--手机回收-->
+<div id="recovery" class="recovery">
+
+    <div  class="page2" style="position:relative">
         <div class="new_search_btn" style="position:absolute; left:-40px; top:-11px; cursor:pointer;"><img
                 src="../images/new_images/search_btn.png" alt="搜索您要评估价格的机型"/></div>
         
-        <div style="height:30px; line-height:30px; font-size:14px;"><a href="">首页</a> &gt;<a
-                href="ershoushouji.html">手机</a> &gt;<a href="ershouiphone.html"> iPhone</a> &gt; iphone 7
+        <div style="height:30px; line-height:30px; font-size:14px;"><a href="/html/index.html">首页</a> &gt;<a
+                href="/html/index.html">手机</a> &gt;<a href="/html/index.html">{{infoList.brandName}}</a> &gt; {{infoList.phoneName}}
         </div>
         <div class="heat_l">
             <div class="heat_img">
-                <img src="http://img.ihuigo.com/goods/739b3910f020832305a94a6a96eec952.jpg" alt="iphone 7回收价格评估"
+                <img :src="infoList.phoneImg" :alt="infoList.phoneNmae+'回收价格评估'"
                      width="264" height="197"/>
             </div>
             <div class="heat_txt">
-                <div class="heat_name"><span>iphone 7</span></div>
+                <div class="heat_name"><span>{{infoList.phoneName}}</span></div>
                 <dl class="heat_ts">
-                    <dd><em>3360</em>元<br/>
+                    <dd><em>{{infoList.phonePrice}}</em>元<br/>
                         30天内回收最高价
                     </dd>
                     <dt class="clear"></dt>
@@ -200,11 +205,42 @@
         $("#pj_ids").val(0);
     })
 </script>
+
+
 <!--[if lte IE 6]>
 <script src="../js/new_js/png.js" type="text/javascript"></script>
 <script type="text/javascript">
     DD_belatedPNG.fix('img,.banner ul, li, dl, dt, dd, span, em, div, i, samp, a, b, .kuang');
 </script>
 <![endif]-->
+
+
+<script type="text/javascript">
+
+
+    var url = window.location.href;
+    alert(url);
+    var id = url.substring(url.indexOf("=")+1);
+    alert(id)
+    // function GetQueryString(name)
+    // {
+    //     var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)]");
+    //     var r = window.location.search.substr(1).match(reg);
+    //     if(r!=null)
+    //         return unescape(r[2]);
+    //         return null;
+    // }
+    new Vue({
+        el:"#recovery",
+        data:{
+            infoList:null
+        },
+        mounted(){
+            axios.get("http://localhost:8080/info/"+ id)
+                .then(response => {this.infoList = response.data})
+        }
+    });
+</script>
+
 </body>
 </html>

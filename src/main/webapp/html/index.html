@@ -177,7 +177,7 @@
                                     height="135" :alt="phone.phoneName+'闲置回收价格评估'"/></a></div>
                             <p class="name">{{phone.phoneName}}</p>
                             <!--<p class="price">回收价：<em>￥3080</em></p>-->
-                            <p class="pinggu"><a href="goods/info/21025.html" :title="'在线评估'+phone.phoneName+'回收价格'"><!--去评估--></a>
+                            <p class="pinggu"><a v-bind:href="'http://localhost:8080/html/info.html?phoneId='+phone.phoneId" :title="'在线评估'+phone.phoneName+'回收价格'"><!--去评估--></a>
                             </p>
                             <div class="hot"><img src="../images/hot.png"/></div>
                         </div>
