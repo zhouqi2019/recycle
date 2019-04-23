@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--跟标签，在跟标签内部配置Java对象-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.qianfeng.po,com.qianfeng.controller,com.qianfeng.service"/>
+
+    <mvc:annotation-driven/>
+
+    <mvc:default-servlet-handler/>
+
+    <bean id="dataSources" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/recycle?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="user" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSources"/>
+        <property name="mapperLocations" value="classpath:mapper/*.mapper.xml"/>
+
+    </bean>
+    <bean id="mapperScan" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.qianfeng.mapper"/>
+    </bean>
+
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+          p:indentOutput="true"
+          p:simpleDateFormat="yyyy-MM-dd"/>
+
+
+
+    <!--上传配置-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!--设置上传文件的最大大小，单位byte，比如100000代表100KB-->
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="100000000"/>
+
+    </bean>
+
+    <!--配置拦截器-->
+    <!--mvc:interceptors配置所有拦截器的根标签-->
+    <!-- <mvc:interceptors>
+         &lt;!&ndash;正在执行拦截任务的拦截器&ndash;&gt;
+         <mvc:interceptor>
+
+             &lt;!&ndash;拦截规则，路径。/**代表拦截所有URL&ndash;&gt;
+             &lt;!&ndash;<mvc:mapping path="/**"/>&ndash;&gt;
+             &lt;!&ndash;将所有静态资源放行&ndash;&gt;
+             <mvc:exclude-mapping path="/js/jquery-3.1.1.js"/>
+             <mvc:exclude-mapping path="/login"/>
+             <mvc:exclude-mapping path="/user/*"/>
+         </mvc:interceptor>
+     </mvc:interceptors>-->
+
+</beans>
