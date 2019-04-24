@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>iphone 7的30天内回收平均价格3360元-麦淘乐 - 二手数码回收平台</title>
@@ -34,7 +34,8 @@
     });
 </script>
 <!--头部--><!--手机回收-->
-<div id="recovery" class="recovery">
+<div id="recovery1">
+<div  class="recovery">
 
     <div  class="page2" style="position:relative">
         <div class="new_search_btn" style="position:absolute; left:-40px; top:-11px; cursor:pointer;"><img
@@ -45,7 +46,7 @@
         </div>
         <div class="heat_l">
             <div class="heat_img">
-                <img :src="infoList.phoneImg" :alt="infoList.phoneNmae+'回收价格评估'"
+                <img v-bind:src="infoList.phoneImg" v-bind:alt="infoList.phoneName+'回收价格评估'"
                      width="264" height="197"/>
             </div>
             <div class="heat_txt">
@@ -114,12 +115,12 @@
         <!--第一步-->
         <div id="property_step1">
             <dl>
-                <dd>
-                    <input type="hidden" name="property[]" id="property_version" value="0"/>
-                    <div class="property_title"><h3>版本</h3></div>
+                <dd  v-for="damage in damageList">
+                    <input type="hidden" name="property[]" :id="'property_'+damage.typeId" value="0"/>
+                    <div class="property_title"><h3>{{damage.typeName}}</h3></div>
                     <ul>
-                        <li class="" onClick="property_click(this,'version','725')" name="sx_child_1">
-                            <div class="pro_div"><span class="property_value"><i>大陆行货</i><ins>内地购买，有“进网许可证”标签。</ins></span><span
+                        <li v-for="discountVos in damage.discountVos" class="" :onClick="'property_click(this,'+damage.typeId+','+discountVos.damageId+')'" :name="'sx_child_'+damage.typeName">
+                            <div class="pro_div"><span class="property_value"><i>{{discountVos.damageInfo}}</i><ins>{{discountVos.infoDamage}}</ins></span><span
                                     class="gou"></span></div>
                         </li>
                         <div class="clear"></div>
@@ -219,9 +220,7 @@
 
 
     var url = window.location.href;
-    alert(url);
     var id = url.substring(url.indexOf("=")+1);
-    alert(id)
     // function GetQueryString(name)
     // {
     //     var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)]");
@@ -231,16 +230,19 @@
     //         return null;
     // }
     new Vue({
-        el:"#recovery",
+        el:"#recovery1",
         data:{
-            infoList:null
+            infoList:null,
+            damageList:null
         },
         mounted(){
-            axios.get("http://localhost:8080/info/"+ id)
-                .then(response => {this.infoList = response.data})
+            axios.get("http://localhost:8080/info/"+id)
+                .then(response => {this.infoList = response.data}),
+            axios.get("http://localhost:8080/discount/info/"+id)
+                .then(response => {this.damageList = response.data})
         }
     });
 </script>
-
+</div>
 </body>
 </html>

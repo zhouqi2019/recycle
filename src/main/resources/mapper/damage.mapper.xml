@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.mapper.DamageMapper">
+    <resultMap id="baseResultMap" type="com.qianfeng.vo.DamageVo">
+        <id property="typeId" column="type_id" javaType="java.lang.Long"/>
+        <result property="typeName" column="type_name" javaType="java.lang.String"/>
+        <result property="typePage" column="type_page" javaType="java.lang.Integer"/>
+        <collection property="discountVos" ofType="com.qianfeng.vo.DiscountVo">
+            <id property="damageId" column="damage_id" javaType="java.lang.Long"/>
+            <result property="damageInfo" column="damage_info" javaType="java.lang.String"/>
+            <result property="infoDamage" column="info_damage" javaType="java.lang.String"/>
+            <result property="discountRate" column="discount_rate" javaType="java.lang.Long"/>
+        </collection>
+    </resultMap>
+    <select id="selectAllDiscountVo" resultMap="baseResultMap">
+        select  wt.type_id, wt.type_name,da.damage_info,da.info_descride,dis.discount_rate ,da.damage_id,dis.phone_id,wt.type_page from tb_weartype wt
+        inner join tb_damage da
+        on wt.type_id=da.type_id
+        inner join tb_discount dis
+        on da.damage_id=dis.discount_id where dis.phone_id =#{phoneId}
+    </select>
+</mapper>

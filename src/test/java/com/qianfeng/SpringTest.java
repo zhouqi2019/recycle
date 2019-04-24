@@ -6,8 +6,10 @@ package com.qianfeng;
 import com.qianfeng.po.TbBrand;
 import com.qianfeng.po.TbPhone;
 import com.qianfeng.service.Impl.BrandService;
+import com.qianfeng.service.Impl.DamageService;
 import com.qianfeng.service.Impl.InfoPhoneService;
 import com.qianfeng.service.Impl.PhoneService;
+import com.qianfeng.vo.DamageVo;
 import com.qianfeng.vo.InfoVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,9 @@ public class SpringTest {
 
     @Autowired
     private InfoPhoneService infoPhoneService;
+
+    @Autowired
+    private DamageService damageMapper;
 
     @Test
     public void testCase1(){
@@ -56,5 +61,11 @@ public class SpringTest {
     public void testCase4(){
         InfoVo infoVo = infoPhoneService.selectPhoneInfo(1);
         System.out.println(infoVo);
+    }
+
+    @Test
+    public void testCase5(){
+       List<DamageVo> list = damageMapper.selectAllDiscountVo(1);
+        System.out.println(list);
     }
 }
